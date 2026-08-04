@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Структура чека — предпросмотр</title>
+    <style>
+        @page {
+            size: 80mm 297mm;
+            margin: 3mm;
+        }
+        body {
+            font-family: "DejaVu Sans", "Arial Unicode MS", Arial, sans-serif;
+            font-size: 8px;
+            line-height: 1.25;
+            margin: 0;
+            padding: 0;
+            color: #000;
+        }
+        .receipt {
+            max-width: 74mm;
+            margin: 0 auto;
+            padding: 2mm;
+        }
+
+        /* --- Утилитарные классы --- */
+        .center { text-align: center; }
+        .right  { text-align: right; }
+        .bold   { font-weight: bold; }
+        .small  { font-size: 7px; }
+        .divider {
+            border-top: 1px dashed #000;
+            margin: 2px 0;
+        }
+        .spacer { height: 2px; }
+
+        /* --- Шапка / продавец --- */
+        .seller-block {
+            text-align: center;
+            margin: 2px 0;
+        }
+        .seller-name {
+            font-size: 9px;
+            font-weight: bold;
+        }
+
+        /* --- Двухколоночная таблица метаданных --- */
+        .meta-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2px 0;
+        }
+        .meta-table td {
+            padding: 0.5px 0;
+            font-size: 8px;
+        }
+        .meta-table .label {
+            font-weight: bold;
+            width: 42%;
+        }
+        .meta-table .value {
+            text-align: right;
+        }
+
+        /* --- Заголовок "КАССОВЫЙ ЧЕК" --- */
+        .receipt-title {
+            text-align: center;
+            font-size: 9px;
+            font-weight: bold;
+            margin: 3px 0 1px 0;
+        }
+        .receipt-type {
+            text-align: center;
+            font-size: 8px;
+            margin-bottom: 2px;
+        }
+
+        /* --- Таблица товаров --- */
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2px 0;
+        }
+        .items-table th {
+            font-size: 7px;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 1px solid #000;
+            padding: 1px 0;
+        }
+        .items-table th.left   { text-align: left; }
+        .items-table th.right  { text-align: right; }
+        .items-table td {
+            font-size: 8px;
+            padding: 1px 0;
+            vertical-align: top;
+        }
+        .items-table td.center { text-align: center; }
+        .items-table td.right  { text-align: right; }
+        .items-table td.left   { text-align: left; }
+
+        /* Ширина колонок */
+        .col-num   { width: 6%;  text-align: center; }
+        .col-name  { width: 32%; }
+        .col-qty   { width: 10%; text-align: center; }
+        .col-price { width: 14%; text-align: right; }
+        .col-exvat { width: 14%; text-align: right; }
+        .col-vat   { width: 10%; text-align: right; }
+        .col-total { width: 14%; text-align: right; }
+
+        /* --- Итоги --- */
+        .totals-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2px 0;
+        }
+        .totals-table td {
+            font-size: 8px;
+            padding: 0.5px 0;
+        }
+        .totals-table .label {
+            text-align: right;
+            font-weight: bold;
+            width: 60%;
+        }
+        .totals-table .value {
+            text-align: right;
+        }
+        .totals-grand {
+            font-weight: bold;
+            font-size: 9px;
+            border-top: 1px solid #000;
+        }
+
+        /* --- Фискальный блок --- */
+        .fiscal-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2px 0;
+        }
+        .fiscal-table td {
+            font-size: 7px;
+            padding: 0.5px 0;
+        }
+        .fiscal-table .label {
+            font-weight: bold;
+            width: 42%;
+        }
+        .fiscal-table .value {
+            text-align: right;
+        }
+
+        /* --- QR и подвал --- */
+        .qr-block {
+            text-align: center;
+            margin: 3px 0;
+            font-size: 7px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 3px;
+            font-size: 7px;
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt">
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- 1. ШАПКА: ПРОДАВЕЦ                                        -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="seller-block">
+            <div class="seller-name">[Название компании]</div>
+            <div>[Адрес компании]</div>
+            <div>ИНН: [ИНН компании]</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- 2. МЕТАДАННЫЕ ЧЕКА                                        -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <table class="meta-table">
+            <tr>
+                <td class="label">Дата</td>
+                <td class="value">[Дата чека]</td>
+            </tr>
+            <tr>
+                <td class="label">Время</td>
+                <td class="value">[Время чека]</td>
+            </tr>
+            <tr>
+                <td class="label">Место расчётов</td>
+                <td class="value">[Место расчётов]</td>
+            </tr>
+            <tr>
+                <td class="label">Смена №</td>
+                <td class="value">[Номер смены]</td>
+            </tr>
+            <tr>
+                <td class="label">Чек №</td>
+                <td class="value">[Номер чека]</td>
+            </tr>
+            <tr>
+                <td class="label">Кассир</td>
+                <td class="value">[ФИО кассира]</td>
+            </tr>
+        </table>
+
+        <div class="divider"></div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- 3. ТИП ЧЕКА                                               -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="receipt-title">КАССОВЫЙ ЧЕК</div>
+        <div class="receipt-type">[Тип операции: приход / расход / возврат]</div>
+
+        <div class="divider"></div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- 4. ТАБЛИЦА ТОВАРОВ С ШАПКОЙ                               -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th class="col-num">№</th>
+                    <th class="left col-name">Наименование</th>
+                    <th class="col-qty">Кол-во</th>
+                    <th class="right col-price">Цена</th>
+                    <th class="right col-exvat">Σ без НДС</th>
+                    <th class="right col-vat">НДС %</th>
+                    <th class="right col-total">Σ с НДС</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Строка 1 -->
+                <tr>
+                    <td class="center">[№ п/п]</td>
+                    <td class="left">[Наименование позиции в чеке]</td>
+                    <td class="center">[Кол-во]</td>
+                    <td class="right">[Цена за ед.]</td>
+                    <td class="right">[Сумма без НДС]</td>
+                    <td class="right">[Ставка НДС]</td>
+                    <td class="right">[Сумма с НДС]</td>
+                </tr>
+                <!-- Строка 2 -->
+                <tr>
+                    <td class="center">[№ п/п]</td>
+                    <td class="left">[Наименование позиции в чеке]</td>
+                    <td class="center">[Кол-во]</td>
+                    <td class="right">[Цена за ед.]</td>
+                    <td class="right">[Сумма без НДС]</td>
+                    <td class="right">[Ставка НДС]</td>
+                    <td class="right">[Сумма с НДС]</td>
+                </tr>
+                <!-- Строка 3 -->
+                <tr>
+                    <td class="center">[№ п/п]</td>
+                    <td class="left">[Наименование позиции в чеке]</td>
+                    <td class="center">[Кол-во]</td>
+                    <td class="right">[Цена за ед.]</td>
+                    <td class="right">[Сумма без НДС]</td>
+                    <td class="right">[Ставка НДС]</td>
+                    <td class="right">[Сумма с НДС]</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="divider"></div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- 5. ИТОГИ                                                  -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <table class="totals-table">
+            <tr>
+                <td class="label">ИТОГО</td>
+                <td class="value">[Итоговая сумма]</td>
+            </tr>
+            <tr>
+                <td class="label">Наличные</td>
+                <td class="value">[Сумма наличных]</td>
+            </tr>
+            <tr>
+                <td class="label">Безналичные</td>
+                <td class="value">[Сумма безналичных]</td>
+            </tr>
+            <tr>
+                <td class="label">НДС 10%</td>
+                <td class="value">[Сумма НДС 10%]</td>
+            </tr>
+            <tr>
+                <td class="label">НДС 20%</td>
+                <td class="value">[Сумма НДС 20%]</td>
+            </tr>
+            <tr class="totals-grand">
+                <td class="label">К ОПЛАТЕ</td>
+                <td class="value">[Сумма к оплате]</td>
+            </tr>
+        </table>
+
+        <div class="divider"></div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- 6. ФИСКАЛЬНЫЕ ДАННЫЕ                                      -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <table class="fiscal-table">
+            <tr>
+                <td class="label">№ авт.</td>
+                <td class="value">[Номер документа]</td>
+            </tr>
+            <tr>
+                <td class="label">СНО</td>
+                <td class="value">[Система налогообложения]</td>
+            </tr>
+            <tr>
+                <td class="label">ФД</td>
+                <td class="value">[Номер ФД]</td>
+            </tr>
+            <tr>
+                <td class="label">ФН</td>
+                <td class="value">[Номер ФН]</td>
+            </tr>
+            <tr>
+                <td class="label">Версия ФФД</td>
+                <td class="value">[Версия ФФД]</td>
+            </tr>
+            <tr>
+                <td class="label">РН ККТ</td>
+                <td class="value">[Регистрационный номер ККТ]</td>
+            </tr>
+            <tr>
+                <td class="label">ФПД</td>
+                <td class="value">[Фискальный признак документа]</td>
+            </tr>
+            <tr>
+                <td class="label">Сайт ОФД</td>
+                <td class="value">[Сайт ОФД]</td>
+            </tr>
+            <tr>
+                <td class="label">Сайт ФНС</td>
+                <td class="value">[Сайт ФНС]</td>
+            </tr>
+            <tr>
+                <td class="label">Код формы ФД</td>
+                <td class="value">[Код формы ФД]</td>
+            </tr>
+        </table>
+
+        <div class="divider"></div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- 7. QR-КОД                                                 -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="qr-block">
+            <div>[Данные QR-кода]</div>
+            <div>Проверить чек: nalog.ru</div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- 8. ПОДВАЛ / КОНТАКТЫ                                      -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="footer">
+            <div>Телефон или эл. адрес покупателя: [Email покупателя]</div>
+            <div>Эл. адрес отправителя: [Email отправителя]</div>
+        </div>
+
+    </div>
+</body>
+</html>
