@@ -1,8 +1,26 @@
+# Python
 venv/
 __pycache__/
 *.pyc
 *.pyo
+
+# Generated PDFs
 output/*.pdf
-gtk-runtime/
+*.pdf
+
+# IDE
 .DS_Store
 Thumbs.db
+
+# Test inputs (not needed after setup)
+test_input_*.txt
+
+# Internal scripts (not user-facing)
+download_roboto.py
+gen_preview.py
+
+# Archived assets
+assets/
+
+# Local temp
+*.tmp
