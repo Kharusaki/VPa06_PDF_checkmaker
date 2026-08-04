@@ -121,7 +121,7 @@ choco install gtk3
 
 ```bash
 # Windows PowerShell:
-cd "c:\Users\user\Desktop\Zerocoder DZ\VPa06. Кейс PDF чекемейкер"
+cd "c:\Users\user\[Папка, где вы разместите проект]"
 ```
 
 ### Шаг 2. Создайте виртуальное окружение
